@@ -16,9 +16,9 @@
   <body ng-controller="BaseController as base">
     <ng-include src="base.loginView" ng-if="!base.isLoggedIn"></ng-include>
     <ng-include src="base.messengerView" ng-if="base.isLoggedIn"></ng-include>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Faker/3.1.0/faker.min.js"></script>
     <script src="./node_modules/jquery/dist/jquery.min.js"></script>
     <script src="./node_modules/angular/angular.min.js"></script>
+    <script src="./node_modules/request-promise/lib/rp.js"></script>
     <script src="./src/index.module.js"></script>
   </body>
 </html>
