@@ -88,6 +88,15 @@ class CmpClient {
     console.log('getUserConversation :: ', user._id);
     return this.cmpReq.post('/api/conversations', { form: { recipientId: user._id } });
   }
+
+  getMessages(conversation) {
+    return this.cmpReq.get(`/api/conversations/${conversation._id}/messages`);
+  }
+
+  sendMessage(conversation, message) {
+    console.log('conversation, message :: ', conversation._id, message);
+    return this.cmpReq.post(`/api/conversations/${conversation._id}/reply`, { form: { message: message } });
+  }
 }
 
 function LoginController($scope) {
@@ -150,16 +159,30 @@ function MessengerController($scope) {
     cmpClient.getUserConversation(user).then((conversation) => {
       user.conversation = conversation;
       console.log('conversation', conversation);
+      return conversation;
+    }).then((conversation) => {
+      this.loadMessages(conversation);
+    });
+  }
+
+  this.loadMessages = (conversation) => {
+    cmpClient.getMessages(conversation).then((messages) => {
+      $scope.$apply(() => {
+        this.currentMessages = messages;
+      });
+      console.log('messages', messages);
     });
   }
 
   this.sendMessage = (message) => {
-    this.currentUser = user;
-    if (user.conversation) { return; }
+    console.log('message', message);
 
-    cmpClient.getUserConversation(user).then((conversation) => {
-      user.conversation = conversation;
-      console.log('conversation', conversation);
+    cmpClient.sendMessage(this.currentUser.conversation, message).then((reply) => {
+      $scope.$apply(() => {
+        this.message = '';
+      });
+      this.loadMessages(this.currentUser.conversation);
+      console.log('reply', reply);
     });
   }
 
