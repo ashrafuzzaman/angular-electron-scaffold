@@ -22,8 +22,8 @@ function BaseController() {
   };
 }
 
-const SSO_URL = 'https://accounts.newscred.com',
-  CMP_HOST = 'https://cmp.newscred.com',
+const SSO_URL = 'https://accounts-staging.newscred.com',
+  CMP_HOST = 'http://cmp-localdev.newscred.com:3000',
   CMP_HOME = `${CMP_HOST}/cloud/home`,
   LOGIN_URL = `${SSO_URL}/login`;
 
@@ -64,6 +64,7 @@ class CmpClient {
         console.log('Load CMP home page to get CMP csrfToken');
         return req.get(CMP_HOME)
           .then((response) => {
+            console.log('CMP home page loaded');
             var csrfTokenRegexp = /window\.csrfToken\s=\s"(.+)";/g;
             var match = csrfTokenRegexp.exec(response);
             let csrfToken = match[1];
@@ -81,6 +82,11 @@ class CmpClient {
 
   getUsers() {
     return this.cmpReq.get('/api/users');
+  }
+
+  getUserConversation(user) {
+    console.log('getUserConversation :: ', user._id);
+    return this.cmpReq.post('/api/conversations', { form: { recipientId: user._id } });
   }
 }
 
@@ -139,6 +145,22 @@ function MessengerController($scope) {
 
   this.selectUser = (user) => {
     this.currentUser = user;
+    if (user.conversation) { return; }
+
+    cmpClient.getUserConversation(user).then((conversation) => {
+      user.conversation = conversation;
+      console.log('conversation', conversation);
+    });
+  }
+
+  this.sendMessage = (message) => {
+    this.currentUser = user;
+    if (user.conversation) { return; }
+
+    cmpClient.getUserConversation(user).then((conversation) => {
+      user.conversation = conversation;
+      console.log('conversation', conversation);
+    });
   }
 
   this.initialize();
