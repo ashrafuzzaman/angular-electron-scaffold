@@ -11,3 +11,15 @@ body {
   height: 900px;
   overflow: scroll;
 }
+
+.messenger-container {
+  padding-top: 20px;
+}
+
+.message-header {
+  padding-bottom: 20px;
+}
+
+.user-list-group-item {
+  cursor: pointer;
+}

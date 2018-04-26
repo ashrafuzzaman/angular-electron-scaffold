@@ -9,17 +9,20 @@
           </button>
         </span>
       </div>
-      <ul class="list-group">
-        <li class="list-group-item" ng-repeat="user in ctrl.users | filter: ctrl.userFilter">
-          <a>
-            <img src="{{user.avatarUrl}}" height="30" width="30">
-            <span class="list-group-item-text">{{user.fullName}}</span>
-          </a>
-        </li>
-      </ul>
+      <div class="list-group">
+        <a class="list-group-item user-list-group-item" ng-repeat="user in ctrl.users | filter: ctrl.userFilter" ng-click="ctrl.selectUser(user)">
+          <img src="{{user.avatarUrl}}" height="30" width="30">
+          <span class="list-group-item-text">{{user.fullName}}</span>
+        </a>
+      </div>
     </div>
     <div class="col-md-10 message-panel">
       <div class="container-fluid">
+        <div ng-if="ctrl.currentUser" class="message-header">
+          <img src="{{ctrl.currentUser.avatarUrl}}" height="30" width="30">
+          <span class="list-group-item-text">{{ctrl.currentUser.fullName}}</span>
+        </div>
+
         <textarea class="form-control" rows="10"></textarea>
         <form>
           <div class="form-group">
