@@ -14,8 +14,8 @@
     <link rel="stylesheet" href="./src/index.css">
   </head>
   <body ng-controller="BaseController as base">
-    <ng-include src="base.loginView" ng-if="!base.isLoggedIn"></ng-include>
-    <ng-include src="base.messengerView" ng-if="base.isLoggedIn"></ng-include>
+    <ng-include src="base.loginView" ng-if="base.getView() == 'login'"></ng-include>
+    <ng-include src="base.messengerView" ng-if="base.getView() == 'messenger'"></ng-include>
     <script src="./node_modules/jquery/dist/jquery.min.js"></script>
     <script src="./node_modules/angular/angular.min.js"></script>
     <script src="./node_modules/request-promise/lib/rp.js"></script>

@@ -7,16 +7,12 @@ let win;
 function createWindow () {
   win = new BrowserWindow({
     width: 1024,
-    height: 768,
+    height: 900,
     backgroundColor: '#ffffff'
   });
 
-  // win.loadURL(url.format({
-  //   pathname: path.join(__dirname, 'index.html'),
-  //   protocol: 'file:',
-  //   slashes: true
-  // }));
   win.loadURL('file://' + __dirname + '/index.html');
+  win.webContents.openDevTools();
 
   // Event when the window is closed.
   win.on('closed', function () {

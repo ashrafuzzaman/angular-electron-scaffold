@@ -1,14 +1,24 @@
-<div class="container-fluid" ng-controller="MessengerController as ctrl">
+<div class="container-fluid messenger-container" ng-controller="MessengerController as ctrl">
   <div class="row">
-    <div class="col-md-5">
-      <div class="list-group">
-        <a href="#" class="list-group-item" ng-repeat="chat in ctrl.chats">
-          <h4 class="list-group-item-heading">{{chat.person.name}}</h4>
-          <p class="list-group-item-text">{{chat.textSnippet}}</p>
-        </a>
+    <div class="col-md-2 users-panel">
+      <div class="input-group">
+        <input type="text" class="form-control" placeholder="Search..." ng-model="ctrl.search">
+        <span class="input-group-btn">
+          <button class="btn btn-default" type="button">
+            <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+          </button>
+        </span>
       </div>
+      <ul class="list-group">
+        <li class="list-group-item" ng-repeat="user in ctrl.users | filter: ctrl.userFilter">
+          <a>
+            <img src="{{user.avatarUrl}}" height="30" width="30">
+            <span class="list-group-item-text">{{user.fullName}}</span>
+          </a>
+        </li>
+      </ul>
     </div>
-    <div class="col-md-7">
+    <div class="col-md-10 message-panel">
       <div class="container-fluid">
         <textarea class="form-control" rows="10"></textarea>
         <form>
