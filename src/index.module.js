@@ -51,18 +51,24 @@ class CmpClient {
         console.log('Login with email and password');
         return req.post(LOGIN_URL, {
           followRedirect: true,
+          resolveWithFullResponse: true,
           form: {
             email: email,
             password: password,
             _csrf: csrf
           }
-        }).catch((err) => {
+        }).then((response, body) => {
+          console.log('response, body', response, body);
+        }).catch((err, response) => {
           // TODO: Need to handle invalid login where status != 302
+          let cookieToSet = err.response.headers['set-cookie'][0];
+          console.log('err, response', err, response);
+          console.log('cookieToSet', cookieToSet);
         });
       })
       .then(() => {
         console.log('Load CMP home page to get CMP csrfToken');
-        return req.get(CMP_HOME)
+        return req.get(CMP_HOME, { time: true })
           .then((response) => {
             console.log('CMP home page loaded');
             var csrfTokenRegexp = /window\.csrfToken\s=\s"(.+)";/g;
@@ -95,7 +101,7 @@ class CmpClient {
 
   sendMessage(conversation, message) {
     console.log('conversation, message :: ', conversation._id, message);
-    return this.cmpReq.post(`/api/conversations/${conversation._id}/reply`, { form: { message: message } });
+    return this.cmpReq.post(`/api/conversations/${conversation._id}/send-message`, { form: { message: message } });
   }
 }
 
@@ -139,7 +145,7 @@ function MessengerController($scope) {
     // ];
 
     return cmpClient.getUsers().then((users) => {
-      $scope.$apply(() => {
+      return $scope.$apply(() => {
         this.users = users;
       });
     });
@@ -153,20 +159,23 @@ function MessengerController($scope) {
   }
 
   this.selectUser = (user) => {
+    let ctrl = this;
     this.currentUser = user;
     if (user.conversation) { return; }
 
-    cmpClient.getUserConversation(user).then((conversation) => {
-      user.conversation = conversation;
-      console.log('conversation', conversation);
-      return conversation;
-    }).then((conversation) => {
-      this.loadMessages(conversation);
-    });
+    cmpClient.getUserConversation(user)
+      .then((conversation) => {
+        user.conversation = conversation;
+        return conversation;
+      }).then((conversation) => {
+        console.log('conversation', conversation);
+        ctrl.loadMessages(conversation);
+      });
   }
 
   this.loadMessages = (conversation) => {
-    cmpClient.getMessages(conversation).then((messages) => {
+    console.log('Loading Messages');
+    return cmpClient.getMessages(conversation).then((messages) => {
       $scope.$apply(() => {
         this.currentMessages = messages;
       });
@@ -175,14 +184,15 @@ function MessengerController($scope) {
   }
 
   this.sendMessage = (message) => {
+    let ctrl = this;
     console.log('message', message);
 
-    cmpClient.sendMessage(this.currentUser.conversation, message).then((reply) => {
+    return cmpClient.sendMessage(this.currentUser.conversation, message).then((reply) => {
       $scope.$apply(() => {
         this.message = '';
       });
-      this.loadMessages(this.currentUser.conversation);
       console.log('reply', reply);
+      return ctrl.loadMessages(this.currentUser.conversation);
     });
   }
 
