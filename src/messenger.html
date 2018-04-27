@@ -26,7 +26,7 @@
 
         <div class="form-group message-conversation">
           <div class="list-group">
-            <div class="list-group-item user-list-group-item" ng-repeat="msg in ctrl.currentMessages">
+            <div class="list-group-item user-list-group-item" ng-repeat="msg in ctrl.getMessages()">
               <span class="list-group-item-text">
                 <img src="{{msg.sender.avatarUrl}}" height="30" width="30">
                 <span>{{msg.text}}</span>

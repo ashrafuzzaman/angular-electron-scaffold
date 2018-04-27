@@ -12,7 +12,7 @@ angular.module('myApp')
 
 const DEBUG = true;
 let view = 'login';
-// let view = 'messenger';
+let loggedInUser;
 
 function BaseController() {
   this.loginView = './src/login.html';
@@ -104,7 +104,7 @@ class CmpClient {
 
   getUserConversation(user) {
     if (DEBUG) {
-      return Promise.resolve({ "_id": "5ae1dfd9cb93706100d3173a", "deletedAt": null, "deleted": false, "startedBy": "5a30b30ac4c12a3400dff6fa", "__v": 0, "participants": [ { "_id": "5a30b30ac4c12a3400dff6fa", "lastName": "Ashrafuzzaman", "firstName": "AKM", "avatarUrl": "http://cmc-dev.s3.amazonaws.com/profile-5a30b30ac4c12a3400dff6fa1524757287430-avatar.jpeg", "fullName": "AKM Ashrafuzzaman", "id": "5a30b30ac4c12a3400dff6fa" }, { "_id": "5a30b34b1d39544800602e1f", "lastName": "Dibosh", "firstName": "Munim", "avatarUrl": "", "fullName": "Munim Dibosh", "id": "5a30b34b1d39544800602e1f" } ], "createdAt": "2018-04-26T14:19:05.912Z" });
+      return Promise.resolve({ "_id": "5ae1dfd9cb93706100d3173a", "deletedAt": null, "deleted": false, "startedBy": "5a30b30ac4c12a3400dff6fa", "__v": 0, "participants": [{ "_id": "5a30b30ac4c12a3400dff6fa", "lastName": "Ashrafuzzaman", "firstName": "AKM", "avatarUrl": "http://cmc-dev.s3.amazonaws.com/profile-5a30b30ac4c12a3400dff6fa1524757287430-avatar.jpeg", "fullName": "AKM Ashrafuzzaman", "id": "5a30b30ac4c12a3400dff6fa" }, { "_id": "5a30b34b1d39544800602e1f", "lastName": "Dibosh", "firstName": "Munim", "avatarUrl": "", "fullName": "Munim Dibosh", "id": "5a30b34b1d39544800602e1f" }], "createdAt": "2018-04-26T14:19:05.912Z" });
     }
     console.log('getUserConversation :: ', user._id);
     return this.cmpReq.post('/api/conversations', { form: { recipientId: user._id } });
@@ -150,7 +150,7 @@ function LoginController($scope) {
     });
   }
 
-  this.login();
+  // this.login();
 }
 
 function MessengerController($scope) {
@@ -198,22 +198,39 @@ function MessengerController($scope) {
     console.log('Loading Messages');
     return cmpClient.getMessages(conversation).then((messages) => {
       $scope.$apply(() => {
-        this.currentMessages = messages;
+        this.currentUser.conversation.messages = messages;
       });
       console.log('messages', messages);
     });
   }
 
+  this.getMessages = () => this.currentUser && this.currentUser.conversation ? this.currentUser.conversation.messages : []
+
   this.sendMessage = (message) => {
     let ctrl = this;
     console.log('message', message);
+    console.log('this.currentUser.conversation.messages', this.currentUser.conversation.messages);
+    
+    this.currentUser.conversation.messages.push({
+      "text": message,
+      "tempId": message,
+      "sender": {
+        "_id": "5a30b30ac4c12a3400dff6fa",
+        "lastName": "Ashrafuzzaman",
+        "firstName": "AKM",
+        "avatarUrl": "http://cmc-dev.s3.amazonaws.com/profile-5a30b30ac4c12a3400dff6fa1524757287430-avatar.jpeg",
+        "fullName": "AKM Ashrafuzzaman",
+        "id": "5a30b30ac4c12a3400dff6fa"
+      }
+    });
 
     return cmpClient.sendMessage(this.currentUser.conversation, message).then((reply) => {
+      // Need to update the info that the temp message has been sent
       $scope.$apply(() => {
         this.message = '';
       });
       console.log('reply', reply);
-      return ctrl.loadMessages(this.currentUser.conversation);
+      // return ctrl.loadMessages(this.currentUser.conversation);
     });
   }
 
