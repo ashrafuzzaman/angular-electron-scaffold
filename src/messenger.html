@@ -10,7 +10,8 @@
         </span>
       </div>
       <div class="list-group">
-        <a class="list-group-item user-list-group-item" ng-class="{active: ctrl.isActive(user)}" ng-repeat="user in ctrl.users | filter: ctrl.userFilter" ng-click="ctrl.selectUser(user)">
+        <a class="list-group-item user-list-group-item" ng-class="{active: ctrl.isActive(user)}" ng-repeat="user in ctrl.users | filter: ctrl.userFilter"
+          ng-click="ctrl.selectUser(user)">
           <img src="{{user.avatarUrl}}" height="30" width="30">
           <span class="list-group-item-text">{{user.fullName}}</span>
         </a>
@@ -35,14 +36,16 @@
           </div>
         </div>
 
-        <div class="input-group">
-          <input type="text" class="form-control" placeholder="Your message ..." ng-model="ctrl.message" ng-disabled="ctrl.isDisabled()">
-          <span class="input-group-btn">
-            <button class="btn btn-primary" type="button" ng-disabled="ctrl.isDisabled()" ng-click="ctrl.sendMessage(ctrl.message)">
-              <span class="glyphicon glyphicon-send" aria-hidden="true"></span>
-            </button>
-          </span>
-        </div>
+        <form ng-submit="ctrl.sendMessage(ctrl.message)">
+          <div class="input-group">
+            <input type="text" class="form-control" placeholder="Your message ..." ng-model="ctrl.message" ng-disabled="ctrl.isDisabled()">
+            <span class="input-group-btn">
+              <button class="btn btn-primary" type="button" ng-disabled="ctrl.isDisabled()" ng-click="ctrl.sendMessage(ctrl.message)">
+                <span class="glyphicon glyphicon-send" aria-hidden="true"></span>
+              </button>
+            </span>
+          </div>
+        </form>
       </div>
     </div>
   </div>
