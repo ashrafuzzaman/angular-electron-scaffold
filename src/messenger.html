@@ -23,9 +23,10 @@
       <div class="container-fluid">
         <div ng-if="ctrl.currentUser">
           <div class="message-header">
-            <img src="{{ctrl.currentUser.avatarUrl}}" height="30" width="30">
+            <img src="{{ctrl.currentUser.avatarUrl || 'https://cdn1.iconfinder.com/data/icons/flat-business-icons/128/user-128.png'}}" height="30" width="30">
             &nbsp;<span class="list-group-item-text bold">{{ctrl.currentUser.fullName}}</span>
           </div>
+          <hr/>
     
           <div class="form-group message-conversation">
             <div class="list-group">
@@ -40,15 +41,15 @@
           </div>
 
           <form ng-submit="ctrl.sendMessage(ctrl.message)">
-              <div class="input-group">
-                <input type="text" class="form-control" placeholder="Write a message ..." ng-model="ctrl.message">
-                <span class="input-group-btn">
-                  <button class="btn btn-primary" type="button" ng-click="ctrl.sendMessage(ctrl.message)">
-                    <span class="glyphicon glyphicon-send" aria-hidden="true"></span>
-                  </button>
-                </span>
-              </div>
-            </form>
+          <div class="input-group">
+            <input type="text" class="form-control" placeholder="Write a message ..." ng-model="ctrl.message">
+            <span class="input-group-btn">
+              <button class="btn btn-primary" type="button" ng-click="ctrl.sendMessage(ctrl.message)">
+                <span class="glyphicon glyphicon-send" aria-hidden="true"></span>
+              </button>
+            </span>
+          </div>
+        </form>
         </div>
       </div>
     </div>

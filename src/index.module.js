@@ -10,7 +10,7 @@ angular.module('myApp')
 angular.module('myApp')
   .controller('MessengerController', ['$scope', MessengerController]);
 
-const DEBUG = false;
+const DEBUG = true;
 let view = 'login';
 let loggedInUser;
 
@@ -156,7 +156,7 @@ function LoginController($scope) {
 function MessengerController($scope) {
   this.users = [];
   this.currentUser;
-
+  this.domain = 'http://cmp-localdev.newscred.com:3000';
   this.initialize = () => {
     return cmpClient.getUsers().then((users) => {
       return $scope.$apply(() => {
@@ -205,12 +205,6 @@ function MessengerController($scope) {
   }
 
   this.getMessages = () => this.currentUser && this.currentUser.conversation ? this.currentUser.conversation.messages : []
-
-  this.isFromRecipient = (message) => {
-    console.log(message);
-    return true;
-    return message.sender._id !== "5a30b30ac4c12a3400dff6fa";
-  };
 
   this.sendMessage = (message) => {
     let ctrl = this;
