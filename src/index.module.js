@@ -174,6 +174,10 @@ function MessengerController($scope) {
     return true;
   }
 
+  this.isActive = (user) => {
+    return user._id == (this.currentUser || {})._id;
+  }
+
   this.selectUser = (user) => {
     let ctrl = this;
     this.currentUser = user;
