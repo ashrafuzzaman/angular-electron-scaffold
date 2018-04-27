@@ -36,16 +36,13 @@
         </div>
 
         <div class="input-group">
-          <input type="text" class="form-control" placeholder="Search..." ng-model="ctrl.message" ng-disabled="ctrl.isDisabled()">
+          <input type="text" class="form-control" placeholder="Your message ..." ng-model="ctrl.message" ng-disabled="ctrl.isDisabled()">
           <span class="input-group-btn">
             <button class="btn btn-primary" type="button" ng-disabled="ctrl.isDisabled()" ng-click="ctrl.sendMessage(ctrl.message)">
               <span class="glyphicon glyphicon-send" aria-hidden="true"></span>
             </button>
           </span>
         </div>
-  
-        <!-- <textarea class="form-control col-md-9" rows="1" ng-model="ctrl.message" ng-disabled="ctrl.isDisabled()"></textarea>
-        <button type="submit" class="btn btn-primary col-md-1" ng-disabled="ctrl.isDisabled()" ng-click="ctrl.sendMessage(ctrl.message)">Submit</button> -->
       </div>
     </div>
   </div>
