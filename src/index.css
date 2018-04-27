@@ -1,15 +1,39 @@
 html {
   font-size: 62.5%;
 }
+@font-face {
+	font-family: 'proximanova';
+	src: url('../ProximaNova-Regular.otf');
+}
 body {
   font-size: 1.4rem;
   line-height: 1.2;
+  font-family: 'proximanova'
 }
 
+.logo {
+  width: 100%;
+  padding: 10px 0;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.list-group-item {
+  border: 0;
+}
 /* Message panel CSS */
 .users-panel {
   height: 900px;
   overflow: scroll;
+  border-right: 1px solid #eee;
+}
+
+.message-conversation {
+  margin-bottom: 15px;
+  height: 600px;
+  overflow-y: scroll;
 }
 
 .messenger-container {
@@ -22,4 +46,20 @@ body {
 
 .user-list-group-item {
   cursor: pointer;
+}
+
+.message-bubble {
+  display: flex;
+  width: 100%;
+  margin-bottom: 10px;
+}
+.message-bubble.is-sender  {
+  flex-direction: row-reverse;
+}
+
+.message-text {
+  border: 1px solid #eee;
+  border-radius: 24px;
+  padding: 8px 15px;
+  background: rgba(23, 125, 214, 0.1);
 }

@@ -1,6 +1,8 @@
 <div class="container-fluid messenger-container" ng-controller="MessengerController as ctrl">
   <div class="row">
     <div class="col-md-2 users-panel">
+      <img class="logo" src="https://www.newscred.com/wp-content/themes/newscred-v2/assets/images/logos/newscred-logo-primary-rgb.png" />
+      <h4>CONVERSATIONS</h4>
       <div class="input-group">
         <input type="text" class="form-control" placeholder="Search..." ng-model="ctrl.search">
         <span class="input-group-btn">
@@ -12,40 +14,42 @@
       <div class="list-group">
         <a class="list-group-item user-list-group-item" ng-class="{active: ctrl.isActive(user)}" ng-repeat="user in ctrl.users | filter: ctrl.userFilter"
           ng-click="ctrl.selectUser(user)">
-          <img src="{{user.avatarUrl}}" height="30" width="30">
-          <span class="list-group-item-text">{{user.fullName}}</span>
+          <img src="{{user.avatarUrl || 'https://cdn1.iconfinder.com/data/icons/flat-business-icons/128/user-128.png'}}" height="30" width="30">
+          &nbsp;<span class="list-group-item-text bold">{{user.fullName}}</span>
         </a>
       </div>
     </div>
     <div class="col-md-10 message-panel">
       <div class="container-fluid">
-        <div ng-if="ctrl.currentUser" class="message-header">
-          <img src="{{ctrl.currentUser.avatarUrl}}" height="30" width="30">
-          <span class="list-group-item-text">{{ctrl.currentUser.fullName}}</span>
-        </div>
-
-        <div class="form-group message-conversation">
-          <div class="list-group">
-            <div class="list-group-item user-list-group-item" ng-repeat="msg in ctrl.getMessages()">
-              <span class="list-group-item-text">
-                <img src="{{msg.sender.avatarUrl}}" height="30" width="30">
-                <span>{{msg.text}}</span>
-              </span>
-              <br/>
+        <div ng-if="ctrl.currentUser">
+          <div class="message-header">
+            <img src="{{ctrl.currentUser.avatarUrl}}" height="30" width="30">
+            &nbsp;<span class="list-group-item-text bold">{{ctrl.currentUser.fullName}}</span>
+          </div>
+    
+          <div class="form-group message-conversation">
+            <div class="list-group">
+              <div class="list-group-item user-list-group-item" ng-repeat="msg in ctrl.getMessages()">
+                <span class="list-group-item-text">
+                  <img src="{{msg.sender.avatarUrl || 'https://cdn1.iconfinder.com/data/icons/flat-business-icons/128/user-128.png'}}" height="30" width="30">
+                  <span class="message-text">{{msg.text}}</span>
+                </span>
+                <br/>
+              </div>
             </div>
           </div>
-        </div>
 
-        <form ng-submit="ctrl.sendMessage(ctrl.message)">
-          <div class="input-group">
-            <input type="text" class="form-control" placeholder="Your message ..." ng-model="ctrl.message" ng-disabled="ctrl.isDisabled()">
-            <span class="input-group-btn">
-              <button class="btn btn-primary" type="button" ng-disabled="ctrl.isDisabled()" ng-click="ctrl.sendMessage(ctrl.message)">
-                <span class="glyphicon glyphicon-send" aria-hidden="true"></span>
-              </button>
-            </span>
-          </div>
-        </form>
+          <form ng-submit="ctrl.sendMessage(ctrl.message)">
+              <div class="input-group">
+                <input type="text" class="form-control" placeholder="Write a message ..." ng-model="ctrl.message">
+                <span class="input-group-btn">
+                  <button class="btn btn-primary" type="button" ng-click="ctrl.sendMessage(ctrl.message)">
+                    <span class="glyphicon glyphicon-send" aria-hidden="true"></span>
+                  </button>
+                </span>
+              </div>
+            </form>
+        </div>
       </div>
     </div>
   </div>

@@ -10,7 +10,7 @@ angular.module('myApp')
 angular.module('myApp')
   .controller('MessengerController', ['$scope', MessengerController]);
 
-const DEBUG = true;
+const DEBUG = false;
 let view = 'login';
 let loggedInUser;
 
@@ -206,6 +206,12 @@ function MessengerController($scope) {
 
   this.getMessages = () => this.currentUser && this.currentUser.conversation ? this.currentUser.conversation.messages : []
 
+  this.isFromRecipient = (message) => {
+    console.log(message);
+    return true;
+    return message.sender._id !== "5a30b30ac4c12a3400dff6fa";
+  };
+
   this.sendMessage = (message) => {
     let ctrl = this;
     console.log('message', message);
@@ -218,7 +224,7 @@ function MessengerController($scope) {
         "_id": "5a30b30ac4c12a3400dff6fa",
         "lastName": "Ashrafuzzaman",
         "firstName": "AKM",
-        "avatarUrl": "http://cmc-dev.s3.amazonaws.com/profile-5a30b30ac4c12a3400dff6fa1524757287430-avatar.jpeg",
+        "avatarUrl": "https://cdn1.iconfinder.com/data/icons/flat-business-icons/128/user-128.png",
         "fullName": "AKM Ashrafuzzaman",
         "id": "5a30b30ac4c12a3400dff6fa"
       }
