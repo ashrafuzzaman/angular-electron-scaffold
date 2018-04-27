@@ -35,8 +35,8 @@
           </div>
         </div>
 
-        <textarea class="form-control col-md-9" rows="1" ng-model="ctrl.message"></textarea>
-        <button type="submit" class="btn btn-primary col-md-1" ng-click="ctrl.sendMessage(ctrl.message)">Submit</button>
+        <textarea class="form-control col-md-9" rows="1" ng-model="ctrl.message" ng-disabled="ctrl.isDisabled()"></textarea>
+        <button type="submit" class="btn btn-primary col-md-1" ng-disabled="ctrl.isDisabled()" ng-click="ctrl.sendMessage(ctrl.message)">Submit</button>
       </div>
     </div>
   </div>

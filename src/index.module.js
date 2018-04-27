@@ -150,9 +150,7 @@ function LoginController($scope) {
     });
   }
 
-  if (!DEBUG) {
-    this.login();
-  }
+  this.login();
 }
 
 function MessengerController($scope) {
@@ -176,6 +174,10 @@ function MessengerController($scope) {
 
   this.isActive = (user) => {
     return user._id == (this.currentUser || {})._id;
+  }
+
+  this.isDisabled = () => {
+    return !this.currentUser;
   }
 
   this.selectUser = (user) => {
